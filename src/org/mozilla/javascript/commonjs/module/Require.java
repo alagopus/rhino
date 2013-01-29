@@ -185,17 +185,16 @@ public class Require extends BaseFunction
         URI uri = null;
         URI base = null;
         if (id.startsWith("./") || id.startsWith("../")) {
+            final URI current;
             if (!(thisObj instanceof ModuleScope)) {
-                throw ScriptRuntime.throwError(cx, scope,
-                        "Can't resolve relative module ID \"" + id +
-                                "\" when require() is used outside of a module");
+                current = new File(".").toURI();
+            } else {
+                ModuleScope moduleScope = (ModuleScope) thisObj;
+                base = moduleScope.getBase();
+                current = moduleScope.getUri();
             }
 
-            ModuleScope moduleScope = (ModuleScope) thisObj;
-            base = moduleScope.getBase();
-            URI current = moduleScope.getUri();
             uri = current.resolve(id);
-
             if (base == null) {
                 // calling module is absolute, resolve to absolute URI
                 // (but without file extension)
