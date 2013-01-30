@@ -1178,11 +1178,6 @@ public class Global extends ImporterTopLevel
         String message = ToolErrorReporter.getMessage(msgId, msgArg);
         return Context.reportRuntimeError(message);
     }
-
-	@Override
-	public String getClassName() {
-        return "JavaImporter";
-	}
 }
 
 
