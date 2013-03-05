@@ -135,10 +135,10 @@ public class Global extends ImporterTopLevel
         if (modulePath != null) {
             for (String path : modulePath) {
                 try {
-                    URI uri = new URI(path);
+                    URI uri = new File(path).toURI();
                     if (!uri.isAbsolute()) {
                         // call resolve("") to canonify the path
-                        uri = new File(path).toURI().resolve("");
+                        uri = uri.resolve("");
                     }
                     if (!uri.toString().endsWith("/")) {
                         // make sure URI always terminates with slash to

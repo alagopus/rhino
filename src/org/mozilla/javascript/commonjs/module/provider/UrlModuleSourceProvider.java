@@ -4,6 +4,7 @@
 
 package org.mozilla.javascript.commonjs.module.provider;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -107,6 +108,11 @@ public class UrlModuleSourceProvider extends ModuleSourceProviderBase
     {
         if(paths == null) {
             return null;
+        }
+        final File check = new File(moduleId);
+        if (check.isAbsolute()) {
+            final URI uri = check.toURI();
+            return loadFromUri(uri, uri, validator);
         }
         for (URI path : paths) {
             final ModuleSource moduleSource = loadFromUri(
