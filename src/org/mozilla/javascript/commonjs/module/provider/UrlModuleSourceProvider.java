@@ -142,7 +142,13 @@ public class UrlModuleSourceProvider extends ModuleSourceProviderBase
     {
         final URL url = new URL(base == null ? null : base.toURL(), uri.toString());
         final long request_time = System.currentTimeMillis();
-        final URLConnection urlConnection = openUrlConnection(url);
+        final URLConnection urlConnection;
+        try {
+            urlConnection = openUrlConnection(url);
+        }
+        catch(FileNotFoundException e) {
+            return null;
+        }
         final URLValidator applicableValidator;
         if(validator instanceof URLValidator) {
             final URLValidator uriValidator = ((URLValidator)validator);
